@@ -1,11 +1,30 @@
-// loginForm submit end here
-var loginForm = $("#loginForm").validate({
+$("#searchResult").on("click", function () {
+  var value = $("#value").val();
+  var searchBy = $("#searchBy").val();
+  if (!value) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Enter Deatils",
+    });
+    return;
+  }
+  if (!searchBy) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please Select Search Type",
+    });
+    return;
+  }
+
+  window.location.replace("list.php?searchBy=" + searchBy + "&value=" + value);
+});
+
+var serachForm = $("#serachForm").validate({
   ignore: ".ignore",
   rules: {
-    email: {
-      required: true,
-    },
-    password: {
+    searchbByValue: {
       required: true,
     },
   },
@@ -22,14 +41,11 @@ var loginForm = $("#loginForm").validate({
     }
   },
   submitHandler: function (form) {
-    var email = $("#email").val();
-    var password = $("#password").val();
+    var searchbByValue = $("#searchbByValue").val();
 
     var data_info = new FormData();
-
-    data_info.append("loginFunction", true);
-    data_info.append("email", email);
-    data_info.append("password", password);
+    data_info.append("serachFunction", true);
+    data_info.append("searchbByValue", searchbByValue);
 
     x = document.querySelectorAll(".error");
     for (i = 0; i < x.length; i++) {
@@ -38,7 +54,7 @@ var loginForm = $("#loginForm").validate({
 
     $.ajax({
       type: "POST",
-      url: "/dbOperation.php/checkLogin",
+      url: "/dbOperation.php",
       data: data_info,
       processData: false,
       contentType: false,
@@ -48,8 +64,14 @@ var loginForm = $("#loginForm").validate({
       success: function (response_data) {
         var response_data = JSON.parse(response_data);
         if (response_data.status) {
-          localStorage.setItem("api_token", response_data.object.api_token);
-          window.location.replace("list.php");
+          Swal.fire({
+            icon: "succes",
+            // title: "Oops...",
+            text: response_data.message,
+          });
+          setTimeout(function () {
+            window.location.reload(1);
+          }, 3000);
         } else {
           Swal.fire({
             icon: "error",
@@ -61,4 +83,3 @@ var loginForm = $("#loginForm").validate({
     });
   },
 });
-// loginForm submit end here

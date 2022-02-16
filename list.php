@@ -2,11 +2,7 @@
 session_start();
 
 require_once "config.php";
-
-
 $api_token = "<script>document.write(localStorage.getItem('api_token'));</script>";
-
-
 
 
 $sql = "SELECT * from users as us WHERE  us.id = " . $_SESSION['id'];
@@ -21,7 +17,7 @@ if (count($data) > 0) {
         header("location: 404.php?status_code=404&msg=unauthorized user");
     } else {
         require_once "header.php";
-        require_once "blank_page.php";
+        require_once "listDetails.php";
         require_once "footer.php";
     }
 } else {
