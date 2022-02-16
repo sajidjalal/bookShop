@@ -70,6 +70,7 @@
                             $DBData = $result->fetch_all(MYSQLI_ASSOC);
                             $sr = 0;
                             $total = 0;
+
                             foreach ($DBData as $key => $value) {
                                 $total = $total + @$value['product_price'];
                             ?>
@@ -92,7 +93,7 @@
                                 <th>Customer Name</th>
                                 <th>Customer Mail</th>
                                 <th>Product Name</th>
-                                <th>Total = <?= ++$total ?></th>
+                                <th>Total = <?= $total ?></th>
                                 <th>Sale Date</th>
 
                             </tr>
